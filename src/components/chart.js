@@ -12,14 +12,16 @@ function avg(data){
 }
 
 export default (props) => {
+
+	const data = props.data;
 	return (
 			<div>
 			<div>TODAY: {props.today} </div>
-				<Sparklines height={100} width={180} data={props.data}>
+				<Sparklines height={100} width={180} data={data}>
 					<SparklinesLine color={props.color} />
 					<SparklinesReferenceLine type="avg"/>
 				</Sparklines>
-				<div>Average:{avg(props.data)} {props.type}</div>
+				<div>Average:{avg(data)} {props.type}</div>
 			</div>
 		)
 }

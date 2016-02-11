@@ -6,15 +6,15 @@ import Chart from '../components/chart';
 class WetherList extends Component {
 
 	render(){
-		// console.dir(this);
+		console.dir(this.props.weather);
 		return (
 			<table className="table table-hover">
 					<thead>
 						<tr>
 							<th>City</th>
-							<th>Temperature</th>
-							<th>Presure</th>
-							<th>Humidity</th>
+							<th>Temperature (C)</th>
+							<th>Presure hPa</th>
+							<th>Humidity %</th>
 						</tr>
 					</thead>
 
@@ -27,27 +27,23 @@ class WetherList extends Component {
 
 
 	renderWeather(cityData){
+		if( !cityData.list.length ){ return <span>"Data not available"</span>}
 
-		console.dir(cityData);
-		const cityName = `${cityData.city.name}, ${cityData.city.country}`;
-		const temp  = parseFloat(cityData.list[0].main.temp - 273.15).toFixed( 2 );;
-		const pressure  = cityData.list[0].main.pressure;
-		const humidity  = cityData.list[0].main.humidity;
+		let cityName = `${cityData.city.name}, ${cityData.city.country}`;
+		let temp  = parseFloat(cityData.list[0].main.temp - 273.15).toFixed( 2 );;
+		let pressure  = cityData.list[0].main.pressure;
+		let humidity  = cityData.list[0].main.humidity;
 
-		const tempArr  = cityData.list.map((data) => { return parseFloat(data.main.temp-273.15).toFixed(2) })
-		const pressureArr  = cityData.list.map((data) => { return parseFloat(data.main.pressure).toFixed(2) })
-		const humidityArr  = cityData.list.map((data) => { return parseFloat(data.main.humidity).toFixed(2) })
-		console.dir(tempArr);
-		// const pressure  = cityData.list[0].main.pressure;
-		// const humidity  = cityData.list[0].main.humidity;
+		let tempArr  = cityData.list.map((data) => { return parseFloat(data.main.temp-273.15).toFixed(2) })
+		let pressureArr  = cityData.list.map((data) => { return parseFloat(data.main.pressure).toFixed(2) })
+		let humidityArr  = cityData.list.map((data) => { return parseFloat(data.main.humidity).toFixed(2) })
 
 
-
-		return(<tr key={new Date().getTime()}>
+		return(<tr key={cityName}>
 			<td>{cityName}</td>
-			<td><Chart data={tempArr} color="red" today={temp} type="C"/></td>
-			<td><Chart data={pressureArr} color="blue" type="hPa"/></td>
-			<td><Chart data={humidityArr} color="green" type="%"/></td>
+			<td> <Chart data={tempArr} color="red" today={temp} type="C"/> </td>
+			<td> <Chart data={pressureArr} color="blue" type="hPa"/> </td>
+			<td> <Chart data={humidityArr} color="green" type="%"/> </td>
 		</tr>)
 	}
 
