@@ -17,7 +17,7 @@ export default (props) => {
 	return (
 			<div>
 			<div>TODAY: {props.today} </div>
-				<Sparklines height={100} width={180} data={data}>
+				<Sparklines height={80} width={280} data={data}>
 					<SparklinesLine color={props.color} />
 					<SparklinesReferenceLine type="avg"/>
 				</Sparklines>

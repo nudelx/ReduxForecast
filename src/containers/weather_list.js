@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../components/chart';
+import GoogleMap from '../components/google_map';
 
 
 class WetherList extends Component {
@@ -27,12 +28,16 @@ class WetherList extends Component {
 
 
 	renderWeather(cityData){
-		if( !cityData.list.length ){ return <span>"Data not available"</span>}
+
+		if( !cityData.list.length ){ return <tr key={new Date().getTime()}><td colSpan="4">Data not available</td></tr> }
 
 		let cityName = `${cityData.city.name}, ${cityData.city.country}`;
 		let temp  = parseFloat(cityData.list[0].main.temp - 273.15).toFixed( 2 );;
 		let pressure  = cityData.list[0].main.pressure;
 		let humidity  = cityData.list[0].main.humidity;
+
+		let {lon, lat} = cityData.city.coord;
+
 
 		let tempArr  = cityData.list.map((data) => { return parseFloat(data.main.temp-273.15).toFixed(2) })
 		let pressureArr  = cityData.list.map((data) => { return parseFloat(data.main.pressure).toFixed(2) })
@@ -40,7 +45,7 @@ class WetherList extends Component {
 
 
 		return(<tr key={cityName}>
-			<td>{cityName}</td>
+			<td> <GoogleMap lon={lon} lat={lat} /> {cityName}</td>
 			<td> <Chart data={tempArr} color="red" today={temp} type="C"/> </td>
 			<td> <Chart data={pressureArr} color="blue" type="hPa"/> </td>
 			<td> <Chart data={humidityArr} color="green" type="%"/> </td>
@@ -50,6 +55,7 @@ class WetherList extends Component {
 
 }
 
+//
 
 
 
